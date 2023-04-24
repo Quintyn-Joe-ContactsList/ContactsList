@@ -1,6 +1,9 @@
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.StandardOpenOption;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class Methods {
@@ -9,7 +12,6 @@ public class Methods {
 	public static void listContacts(Path pathToFile) {
 		try {
 			List<String> contactsFromFile = Files.readAllLines(pathToFile);
-			// System.out.println(groceryListFromFile);
 			for (String contact : contactsFromFile) {
 				System.out.println(contact);
 			}
@@ -35,4 +37,35 @@ public class Methods {
 			e.printStackTrace();
 		}
 	}
+
+	//	Method to add contacts
+	public static void addContact (Path pathtoFile, String first, String last, String phone) {
+		try {
+			List <String> newContact= Arrays.asList("First: " + first +", Last: " + last + ", Number: " + phone);
+			Files.write(
+					pathtoFile,
+					newContact,
+					StandardOpenOption.APPEND);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+    }
+
+	//	Method to remove contacts
+	public static void removeContacts(Path pathToFile, String searchTerm) {
+		try {
+			List<String> contacts = Files.readAllLines(pathToFile);
+			List<String> newList = new ArrayList<>();
+			for (String contact : contacts) {
+				if (!contact.toLowerCase().contains(searchTerm.toLowerCase())) {
+					newList.add(contact);
+				}
+			}
+			Files.write(pathToFile, newList);
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 }
+
+
