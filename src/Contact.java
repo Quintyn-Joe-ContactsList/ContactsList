@@ -1,5 +1,5 @@
 
-import util.Input;
+import util.*;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -49,7 +49,6 @@ public class Contact {
             3. Search a contact by name.
             4. Delete an existing contact.
             5. Exit.
-            Enter an option (1, 2, 3, 4 or 5):
             """;
 
     private void createFile(Path data, Path file) {
@@ -113,7 +112,7 @@ public class Contact {
         createFile(dataDirectory, dataFile);
         while(true) {
             System.out.println(contactMenu);
-            int menuOption = userInput.getInt(1, 5);
+            int menuOption = Input.getInt("Please select an option:", 1, 5);
             if (menuOption == 5) {
                 System.out.println("Goodbye");
                 break;
@@ -121,12 +120,23 @@ public class Contact {
             switch (menuOption) {
                 case 1 -> {
 //              View contacts
+					Methods.listContacts(dataFile);
+					utils.waitForUser();
+					utils.clearConsole();
                 }
                 case 2 -> {
 //              Add a new contact
                 }
                 case 3 -> {
 //              Search a contact by name
+					Methods.searchContacts(dataFile, Input.getString("Please enter a name to search for:"));
+					utils.waitForUser();
+					utils.clearConsole();
+					if (Input.yesNo("Would you like to search again? [y/n]")) {
+						Methods.searchContacts(dataFile, Input.getString("Please enter a name to search for:"));
+					} else {
+						utils.clearConsole();
+					}
                 }
                 case 4 -> {
 //              Delete an existing contact
