@@ -1,10 +1,13 @@
+
+import util.Input;
+
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.nio.file.StandardOpenOption;
 import java.util.Arrays;
 import java.util.List;
+
 
 public class Contact {
 
@@ -37,8 +40,17 @@ public class Contact {
 //        this.phoneNumber = phoneNumber;
 //    }
 
+    Input userInput = new Input();
     private String directory = "data";
     private String filename = "contacts.txt";
+    private String contactMenu = """
+            1. View contacts.
+            2. Add a new contact.
+            3. Search a contact by name.
+            4. Delete an existing contact.
+            5. Exit.
+            Enter an option (1, 2, 3, 4 or 5):
+            """;
 
     private void createFile(Path data, Path file) {
         if (Files.notExists(data)) {
@@ -76,6 +88,7 @@ public class Contact {
         }
     }
 
+
 //    public void addContact (Path data, Path file) {
 //        try {
 //            Files.write(data, oldContacts);
@@ -98,7 +111,28 @@ public class Contact {
         Path dataDirectory = Paths.get(directory);
         Path dataFile = Paths.get(directory, filename);
         createFile(dataDirectory, dataFile);
-
+        while(true) {
+            System.out.println(contactMenu);
+            int menuOption = userInput.getInt(1, 5);
+            if (menuOption == 5) {
+                System.out.println("Goodbye");
+                break;
+            }
+            switch (menuOption) {
+                case 1 -> {
+//              View contacts
+                }
+                case 2 -> {
+//              Add a new contact
+                }
+                case 3 -> {
+//              Search a contact by name
+                }
+                case 4 -> {
+//              Delete an existing contact
+                }
+            }
+        }
     }
 
 }
