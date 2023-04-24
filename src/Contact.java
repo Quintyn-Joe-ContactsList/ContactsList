@@ -11,36 +11,6 @@ import java.util.List;
 
 public class Contact {
 
-//    private String firstName;
-//    private String lastName;
-//    private String phoneNumber;
-//
-//    public String getFirstName() {
-//        return firstName;
-//    }
-//    public void setFirstName(String firstName) {
-//        this.firstName = firstName;
-//    }
-//    public String getLastName() {
-//        return lastName;
-//    }
-//    public void setLastName(String lastName) {
-//        this.lastName = lastName;
-//    }
-//    public String getPhoneNumber() {
-//        return phoneNumber;
-//    }
-//    public void setPhoneNumber(String phoneNumber) {
-//        this.phoneNumber = phoneNumber;
-//    }
-//
-//    public Contact(String firstName, String lastName, String phoneNumber) {
-//        this.firstName = firstName;
-//        this.lastName = lastName;
-//        this.phoneNumber = phoneNumber;
-//    }
-
-    Input userInput = new Input();
     private String directory = "data";
     private String filename = "contacts.txt";
     private String contactMenu = """
@@ -54,8 +24,6 @@ public class Contact {
     private void createFile(Path data, Path file) {
         if (Files.notExists(data)) {
             try {
-//              HighlyLikely to run with an exception
-//          .˙. RUN TRY CATCH
                 Files.createDirectories(data);
             } catch (IOException e) {
                 e.printStackTrace();
@@ -87,24 +55,6 @@ public class Contact {
         }
     }
 
-
-//    public void addContact (Path data, Path file) {
-//        try {
-//            Files.write(data, oldContacts);
-//            List <String> newContacts= Arrays.asList("");
-//            Files.write(
-////                Where
-//                    data,
-////                What
-//                    newContacts,
-////          Third arg for writing to open files
-////                Do
-//                    StandardOpenOption.APPEND);
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//    }
-
 //    MAIN METHOD
     public void mainMethod() {
         Path dataDirectory = Paths.get(directory);
@@ -126,6 +76,12 @@ public class Contact {
                 }
                 case 2 -> {
 //              Add a new contact
+                    Methods.addContact(dataFile,
+                            Input.getString("Please enter a First Name"),
+                            Input.getString("Please enter a Last Name"),
+                            Input.getString("Please enter a Phone Number"));
+                    utils.waitForUser();
+                    utils.clearConsole();
                 }
                 case 3 -> {
 //              Search a contact by name
@@ -140,9 +96,18 @@ public class Contact {
                 }
                 case 4 -> {
 //              Delete an existing contact
+                    Methods.removeContacts(dataFile, Input.getString("Please enter a name to remove:"));
+                    utils.waitForUser();
+                    utils.clearConsole();
+                    if (Input.yesNo("Would you like to remove another contact? [y/n]")) {
+                        Methods.removeContacts(dataFile, Input.getString("Please enter a name to search for:"));
+                    } else {
+                        utils.clearConsole();
+                    }
                 }
             }
         }
     }
 
 }
+
