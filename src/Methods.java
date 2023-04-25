@@ -1,3 +1,6 @@
+import util.Input;
+import util.utils;
+
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -62,8 +65,16 @@ public class Methods {
 				}
 			}
 			Files.write(pathToFile, newList);
+			if (contacts.size() == newList.size()) {
+				System.out.println("No contacts found.");
+			} else {
+				System.out.println("Contact removed.");
+			}
 		} catch (IOException e) {
 			e.printStackTrace();
+		}
+		if (Input.yesNo("Would you like to remove another contact? [y/n]")) {
+			Methods.removeContacts(pathToFile, Input.getString("Please enter a name to search for:"));
 		}
 	}
 }
