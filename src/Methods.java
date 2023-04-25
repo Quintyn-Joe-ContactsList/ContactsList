@@ -44,7 +44,8 @@ public class Methods {
 	//	Method to add contacts
 	public static void addContact (Path pathtoFile, String first, String last, String phone) {
 		try {
-			List <String> newContact= Arrays.asList("First: " + first +", Last: " + last + ", Number: " + phone);
+			List <String> newContact=
+					Arrays.asList("First: " + first +", Last: " + last + ", Number: " + formatNumber(phone));
 			Files.write(
 					pathtoFile,
 					newContact,
@@ -77,6 +78,19 @@ public class Methods {
 			Methods.removeContacts(pathToFile, Input.getString("Please enter a name to search for:"));
 		}
 	}
+
+	public static String formatNumber(String inputPhone) {
+		String formatPhone = "";
+
+		if (inputPhone.length() == 10) {
+			formatPhone += inputPhone.replaceFirst("(\\d{3})(\\d{3})(\\d+)", "($1) $2-$3");
+		} else if (inputPhone.length() == 7) {
+			formatPhone += inputPhone.replaceFirst("(\\d{3})(\\d+)", "$1-$2");
+		}
+
+		return formatPhone;
+	}
+
 }
 
 
