@@ -5,6 +5,7 @@ public class ContactsApp {
         Contact contact = new Contact();
         contact.mainMethod();
 
+
     }
 
 }
