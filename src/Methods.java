@@ -6,7 +6,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardOpenOption;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 public class Methods {
@@ -21,42 +20,60 @@ public class Methods {
 		} catch(IOException e) {
 			e.printStackTrace();
 		}
+		utils.waitForUser();
+		utils.clearConsole();
 	}
 
 	// method to search for a contact
-	public static void searchContacts(Path pathToFile, String searchTerm) {
+	public static void searchContacts(Path pathToFile) {
+		String searchTerm = Input.getString("Please enter a name to search for:");
 		try {
 			List<String> contactsFromFile = Files.readAllLines(pathToFile);
-			for (int i = 0; i <= contactsFromFile.size(); i++) {
-				if (contactsFromFile.get(i).toLowerCase().contains(searchTerm.toLowerCase())) {
-					System.out.println(contactsFromFile.get(i));
-					break;
-				} else if (!contactsFromFile.get(contactsFromFile.size() - 1).toLowerCase().contains(searchTerm.toLowerCase())) {
-					System.out.println("No contacts found.");
+			for (String contact : contactsFromFile) {
+				if (contact.toLowerCase().contains(searchTerm.toLowerCase())) {
+					System.out.println(contact);
 					break;
 				}
+			}
+			if (!contactsFromFile.toString().toLowerCase().contains(searchTerm.toLowerCase())) {
+				System.out.println("No contacts found.");
 			}
 		} catch(IOException e) {
 			e.printStackTrace();
 		}
+		if (Input.yesNo("Would you like to search again? [y/n]")) {
+			Methods.searchContacts(pathToFile);
+		}
+		utils.clearConsole();
 	}
 
 	//	Method to add contacts
-	public static void addContact (Path pathtoFile, String first, String last, String phone) {
+	public static void addContact (Path pathToFile) {
+		utils.clearConsole();
+		String first = Input.getString("Please enter a First Name");
+		utils.clearConsole();
+		String last = Input.getString("Please enter a Last Name");
+		utils.clearConsole();
+		String phone = Input.getString("Please enter a Phone Number");
+		utils.clearConsole();
 		try {
 			List <String> newContact=
-					Arrays.asList("First: " + first +", Last: " + last + ", Number: " + formatNumber(phone));
+					List.of("First: " + first + ", Last: " + last + ", Number: " + formatNumber(phone));
 			Files.write(
-					pathtoFile,
+					pathToFile,
 					newContact,
 					StandardOpenOption.APPEND);
+			System.out.println("Contact added.");
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		utils.waitForUser();
+		utils.clearConsole();
     }
 
 	//	Method to remove contacts
-	public static void removeContacts(Path pathToFile, String searchTerm) {
+	public static void removeContacts(Path pathToFile) {
+		String searchTerm = Input.getString("Please enter a name to search for:");
 		try {
 			List<String> contacts = Files.readAllLines(pathToFile);
 			List<String> newList = new ArrayList<>();
@@ -75,8 +92,10 @@ public class Methods {
 			e.printStackTrace();
 		}
 		if (Input.yesNo("Would you like to remove another contact? [y/n]")) {
-			Methods.removeContacts(pathToFile, Input.getString("Please enter a name to search for:"));
+			Methods.removeContacts(pathToFile);
 		}
+		utils.waitForUser();
+		utils.clearConsole();
 	}
 
 	public static String formatNumber(String inputPhone) {
